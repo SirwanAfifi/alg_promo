@@ -1,6 +1,5 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Service } from './service.entity';
-import { User } from './user.entity';
+import { User, Service } from './_index';
 
 @Entity()
 export class UserService {

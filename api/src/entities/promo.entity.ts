@@ -1,5 +1,12 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
-import { Service } from './service.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  BeforeInsert,
+} from 'typeorm';
+import * as uuid from 'uuid';
+import { Service } from './_index';
 
 @Entity()
 export class PromoCode {
@@ -16,4 +23,12 @@ export class PromoCode {
     onDelete: 'CASCADE',
   })
   service: Service;
+
+  @Column()
+  serviceId!: number;
+
+  @BeforeInsert()
+  createCode() {
+    this.code = uuid.v4();
+  }
 }

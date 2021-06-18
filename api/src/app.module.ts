@@ -9,7 +9,13 @@ import {
   ServiceService,
   PromoCodeService,
 } from './services/_index';
-import { CommonController } from './controllers/common.controller';
+import { PromoCode, User } from './entities/_index';
+import {
+  CommonController,
+  ServiceController,
+  PromoCodeController,
+} from './controllers/_index';
+import { Service } from './entities/_index';
 
 @Module({
   imports: [
@@ -20,6 +26,7 @@ import { CommonController } from './controllers/common.controller';
         POSTGRES_USER: Joi.string().required(),
         POSTGRES_PASSWORD: Joi.string().required(),
         POSTGRES_DB: Joi.string().required(),
+        PRIVATE_KEY: Joi.string().required(),
         PORT: Joi.number(),
       }),
     }),
@@ -37,8 +44,9 @@ import { CommonController } from './controllers/common.controller';
         synchronize: true,
       }),
     }),
+    TypeOrmModule.forFeature([Service, PromoCode, User]),
   ],
-  controllers: [CommonController],
+  controllers: [CommonController, ServiceController, PromoCodeController],
   providers: [AuthService, CommonService, ServiceService, PromoCodeService],
 })
 export class AppModule {}

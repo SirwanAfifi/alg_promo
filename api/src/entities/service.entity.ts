@@ -1,14 +1,6 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  OneToMany,
-  JoinTable,
-  ManyToMany,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { PromoCode } from './promo.entity';
-import { User } from './user.entity';
-import { UserService } from './user.service.entity';
+import { UserService } from './_index';
 
 @Entity()
 export class Service {

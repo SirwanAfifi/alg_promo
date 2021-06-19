@@ -9,13 +9,13 @@ import {
   ServiceService,
   PromoCodeService,
 } from './services/_index';
-import { PromoCode, User } from './entities/_index';
+import { PromoCode, User, Service } from './entities/_index';
 import {
   CommonController,
+  AuthController,
   ServiceController,
   PromoCodeController,
 } from './controllers/_index';
-import { Service } from './entities/_index';
 
 @Module({
   imports: [
@@ -46,7 +46,12 @@ import { Service } from './entities/_index';
     }),
     TypeOrmModule.forFeature([Service, PromoCode, User]),
   ],
-  controllers: [CommonController, ServiceController, PromoCodeController],
+  controllers: [
+    CommonController,
+    AuthController,
+    ServiceController,
+    PromoCodeController,
+  ],
   providers: [AuthService, CommonService, ServiceService, PromoCodeService],
 })
 export class AppModule {}

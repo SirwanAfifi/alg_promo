@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { useHistory } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { Input } from "../components/Input";
 import { Service } from "../components/Service";
 import { ServiceItem } from "../types/_index";
-import { publicFetch } from "../utils/_index";
+import { privateFetch } from "../utils/_index";
 
 export const MainPage: React.FC = () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) history.push("/signin");
+  }, []);
   const history = useHistory();
   const [services, setServices] = useState<ServiceItem[]>();
   const { error, isValidating } = useSWR<ServiceItem[]>(
     "services",
-    () => publicFetch.get("/service").then((d) => d.data),
+    () => privateFetch.get("/service").then((d) => d.data),
     {
       onSuccess: (data) => setServices(data),
       onError: () => history.push("/signin"),

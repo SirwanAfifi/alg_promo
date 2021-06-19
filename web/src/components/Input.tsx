@@ -1,10 +1,23 @@
 interface InputProps {
   label: string;
   icon?: JSX.Element;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  name?: string;
+  type?: "text" | "password";
+  fullWidth?: boolean;
 }
-export const Input = ({ label, icon }: InputProps) => {
+export const Input = ({
+  label,
+  icon,
+  value,
+  onChange,
+  name,
+  type,
+  fullWidth,
+}: InputProps) => {
   return (
-    <div className="w-60 h-10 inline-block">
+    <div className={`${fullWidth ? "w-full" : "w-60"}  h-10 inline-block`}>
       <label className="block text-sm uppercase text-textGray">{label}</label>
       <div className="mt-2 relative">
         {icon && (
@@ -13,7 +26,10 @@ export const Input = ({ label, icon }: InputProps) => {
           </div>
         )}
         <input
-          type="text"
+          value={value}
+          onChange={onChange}
+          name={name}
+          type={type || "text"}
           className="mr-3 w-full h-10 pl-2 pr-10 sm:text-sm border border-lightGray rounded-md"
         />
       </div>

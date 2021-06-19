@@ -64,4 +64,19 @@ export class AuthService {
       return { ok: false, error: "Can't login user" };
     }
   }
+
+  verifyToken(token: string) {
+    try {
+      jwt.verify(
+        token.split(' ')[1],
+        this.configService.get<string>('PRIVATE_KEY'),
+        {
+          ignoreExpiration: true,
+        },
+      );
+      return true;
+    } catch {
+      return false;
+    }
+  }
 }

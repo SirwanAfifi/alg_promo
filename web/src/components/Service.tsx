@@ -5,15 +5,12 @@ interface ServiceProps {
   title: string;
   description: string;
 }
-export const Service = (props: ServiceProps) => (
-  <div className="bg-white shadow sm:rounded-lg flex items-center px-4 py-5 sm:p-6 justify-between">
+export const Service = ({ title, description }: ServiceProps) => (
+  <div className="bg-white shadow sm:rounded-lg flex items-center px-4 py-5 sm:p-6 justify-between mt-4 mb-4">
     <div>
-      <h3 className="text-3xl">Delete your account</h3>
+      <h3 className="text-3xl">{title}</h3>
       <div className="mt-3 max-w-xl text-sm text-textGray truncate">
-        <p>
-          Once you delete your account, you will lose all data associated with
-          it.
-        </p>
+        <p>{description}</p>
       </div>
     </div>
     <div className="space-x-4 hidden lg:block">

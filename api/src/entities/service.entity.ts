@@ -1,6 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { PromoCode } from './promo.entity';
-import { UserService } from './_index';
+import { PromoCode, UserService } from './_index';
 
 @Entity()
 export class Service {
@@ -9,6 +8,9 @@ export class Service {
 
   @Column()
   title: string;
+
+  @Column()
+  price: number;
 
   @Column({ nullable: true })
   description: string;

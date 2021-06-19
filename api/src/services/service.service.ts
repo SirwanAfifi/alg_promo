@@ -18,11 +18,12 @@ export class ServiceService {
     });
   }
 
-  async createService({ title, description }: CreateServiceDto) {
+  async createService({ title, description, price }: CreateServiceDto) {
     try {
       const service = await this.services.save(
         this.services.create({
           title,
+          price,
           description,
         }),
       );

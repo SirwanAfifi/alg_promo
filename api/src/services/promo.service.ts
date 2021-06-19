@@ -11,13 +11,10 @@ export class PromoCodeService {
     private readonly promoCodes: Repository<PromoCode>,
   ) {}
 
-  async createPromoCode({ description, serviceId }: CreatePromoCodeDto) {
+  async createPromoCode(input: CreatePromoCodeDto) {
     try {
       const promoCode = await this.promoCodes.save(
-        this.promoCodes.create({
-          description,
-          serviceId,
-        }),
+        this.promoCodes.create(input),
       );
       return { ok: true, data: promoCode };
     } catch (error) {

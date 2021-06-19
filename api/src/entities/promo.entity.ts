@@ -16,6 +16,15 @@ export class PromoCode {
   @Column()
   code: string;
 
+  @Column()
+  percentage: number;
+
+  @Column()
+  activeFrom: Date;
+
+  @Column()
+  activeTo: Date;
+
   @Column({ nullable: true })
   description: string;
 

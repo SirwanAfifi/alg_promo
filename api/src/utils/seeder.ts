@@ -1,7 +1,11 @@
 import { INestApplication } from '@nestjs/common';
 import * as faker from 'faker';
 import { Service } from 'src/entities/_index';
-import { PromoCodeService, ServiceService } from 'src/services/_index';
+import {
+  AuthService,
+  PromoCodeService,
+  ServiceService,
+} from 'src/services/_index';
 
 const getRange = (length: number) =>
   Array.from({ length }, (_, index) => index);
@@ -9,6 +13,14 @@ const getRange = (length: number) =>
 export const seeder = async (app: INestApplication) => {
   const service = app.get<ServiceService>('ServiceService');
   const promoCodeService = app.get<PromoCodeService>('PromoCodeService');
+  const authService = app.get<AuthService>('AuthService');
+
+  const userResult = await authService.createAccount({
+    username: 'Sirwan',
+    password: 'SAMPLE',
+  });
+
+  if (!userResult.ok) return;
 
   for (const _ of getRange(100)) {
     const savedService = await service.createService({

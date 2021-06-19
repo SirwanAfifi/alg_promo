@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as jwt from 'jsonwebtoken';
 import { Repository } from 'typeorm';
-import { LoginDto } from 'src/dtos/_index';
+import { LoginDto, SignupDto } from 'src/dtos/_index';
 import { User } from 'src/entities/_index';
 
 @Injectable()
@@ -14,8 +14,26 @@ export class AuthService {
     private readonly users: Repository<User>,
   ) {}
 
-  sign(payload: Record<string, unknown>): string {
-    return jwt.sign(payload, this.configService.get<string>('PRIVATE_KEY'));
+  async createAccount({
+    username,
+    password,
+  }: SignupDto): Promise<{ ok: boolean; error?: string }> {
+    try {
+      const exists = await this.users.findOne({ username });
+      if (exists) {
+        return { ok: false, error: 'User exists in the DB' };
+      }
+      await this.users.save(
+        this.users.create({
+          username,
+          password,
+        }),
+      );
+
+      return { ok: true };
+    } catch (error) {
+      return { ok: false, error: "Couldn't create account" };
+    }
   }
 
   async login({

@@ -21,7 +21,7 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ default: 100 })
   balance: number;
 
   @OneToMany(() => UserService, (userService) => userService.user)

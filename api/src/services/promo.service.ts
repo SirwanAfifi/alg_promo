@@ -27,10 +27,10 @@ export class PromoCodeService {
   async activateBounce(activateBounceDto: ActivateBounceDto, userId: number) {
     try {
       const foundPromoCode = await this.promoCodes.findOne({
-        where: [
-          { code: activateBounceDto.promoCode },
-          { serviceId: activateBounceDto.serviceId },
-        ],
+        where: {
+          code: activateBounceDto.promoCode,
+          serviceId: activateBounceDto.serviceId,
+        },
       });
       if (!foundPromoCode) {
         throw new Error();

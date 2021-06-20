@@ -7,6 +7,7 @@ const colors = {
   textGray: "#7D7D7D",
   blue: "#0085FF",
   white: "#FFFFFF",
+  red: "#E74C3C",
 };
 
 module.exports = {

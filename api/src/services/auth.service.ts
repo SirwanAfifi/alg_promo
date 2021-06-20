@@ -41,6 +41,7 @@ export class AuthService {
     error?: string;
     token?: string;
     userInfo?: {
+      userId: number;
       username: string;
       balance: number;
     };
@@ -65,6 +66,7 @@ export class AuthService {
         ok: true,
         token,
         userInfo: {
+          userId: user.id,
           balance: user.balance,
           username: user.username,
         },

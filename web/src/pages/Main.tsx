@@ -72,6 +72,9 @@ export const MainPage: React.FC = () => {
         return;
       }
 
+      setServices({ rows: [], count: 0 } as ServicePaginatedResult);
+      mutate();
+
       notify({
         title: "Success",
         message: `Service ${service.title} Has Been Activated For You`,

@@ -14,7 +14,7 @@ export class ServiceService {
   findAll({ limit, offset, q }: { limit: number; offset: number; q?: string }) {
     return this.services
       .findAndCount({
-        relations: ['promoCodes'],
+        relations: ['userServices'],
         skip: offset,
         take: limit,
         ...(q && { where: { title: Like(`%${q}%`) } }),

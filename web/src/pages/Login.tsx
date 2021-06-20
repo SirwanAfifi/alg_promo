@@ -29,8 +29,8 @@ export const LoginPage: React.FC = () => {
           alert(result.data.error);
           return;
         }
-        const { token } = result.data;
-        authContext.setAuthState({ token, userInfo: {} });
+        const { token, userInfo } = result.data;
+        authContext.setAuthState({ token, userInfo });
         history.push("/");
       },
       enableReinitialize: true,

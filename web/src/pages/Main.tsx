@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import { useHistory } from "react-router-dom";
 import { Layout } from "../components/Layout";
@@ -8,10 +8,6 @@ import { ServiceItem } from "../types/_index";
 import { privateFetch } from "../utils/_index";
 
 export const MainPage: React.FC = () => {
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) history.push("/signin");
-  }, []);
   const history = useHistory();
   const [services, setServices] = useState<ServiceItem[]>();
   const { error, isValidating } = useSWR<ServiceItem[]>(

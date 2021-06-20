@@ -1,6 +1,8 @@
 import { useFormik } from "formik";
+import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Input } from "../components/Input";
+import { AuthContext } from "../contexts/AuthContext";
 import { publicFetch } from "../utils/publicFetch";
 
 interface User {
@@ -9,6 +11,7 @@ interface User {
 }
 
 export const LoginPage: React.FC = () => {
+  const authContext = useContext(AuthContext);
   const history = useHistory();
   const { values, errors, touched, handleChange, handleSubmit } =
     useFormik<User>({
@@ -27,7 +30,7 @@ export const LoginPage: React.FC = () => {
           return;
         }
         const { token } = result.data;
-        localStorage.setItem("token", token);
+        authContext.setAuthState({ token, userInfo: {} });
         history.push("/");
       },
       enableReinitialize: true,
@@ -44,6 +47,7 @@ export const LoginPage: React.FC = () => {
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" onSubmit={handleSubmit}>
             <Input
+              fullWidth
               label="username"
               name="username"
               value={values.username}
@@ -51,6 +55,7 @@ export const LoginPage: React.FC = () => {
             />
 
             <Input
+              fullWidth
               label="password"
               name="password"
               type="password"

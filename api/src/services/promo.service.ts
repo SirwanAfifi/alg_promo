@@ -36,6 +36,16 @@ export class PromoCodeService {
         throw new Error();
       }
 
+      const currentDate = new Date().getTime();
+      if (
+        !(
+          currentDate >= foundPromoCode.activeFrom.getTime() &&
+          currentDate <= foundPromoCode.activeTo.getTime()
+        )
+      ) {
+        return { ok: false, error: 'The given code has been expired' };
+      }
+
       await this.userServices.save(
         this.userServices.create({
           userId,

@@ -27,6 +27,16 @@ Done with Seeding
 
 - Start the API: `yarn start:dev`
 
+- You can then login into the DB container to get some promo codes:
+
+```bash
+docker exec -it api_db_1 psql -U admin promo_db
+
+SELECT s.title, p.code
+ FROM promo_code AS p
+JOIN service AS s ON s.id = p."serviceId";
+```
+
 # Web
 
 - `yarn`

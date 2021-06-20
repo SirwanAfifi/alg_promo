@@ -1,4 +1,7 @@
 export interface Auth {
   token: string | null;
-  userInfo: unknown;
+  userInfo: {
+    balance: number;
+    username: string;
+  };
 }

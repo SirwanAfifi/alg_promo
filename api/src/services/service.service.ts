@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateServiceDto } from 'src/dtos/_index';
 import { Service } from 'src/entities/_index';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 
 @Injectable()
 export class ServiceService {
@@ -11,12 +11,13 @@ export class ServiceService {
     private readonly services: Repository<Service>,
   ) {}
 
-  findAll({ limit, offset }: { limit: number; offset: number }) {
+  findAll({ limit, offset, q }: { limit: number; offset: number; q?: string }) {
     return this.services
       .findAndCount({
         relations: ['promoCodes'],
         skip: offset,
         take: limit,
+        ...(q && { where: { title: Like(`%${q}%`) } }),
       })
       .then((result) => ({ rows: result[0], count: result[1] }));
   }

@@ -35,7 +35,7 @@ export const MainPage: React.FC = () => {
   );
 
   const onPageChanges = () => {
-    setPage((prevPage) => prevPage + 1);
+    setPage((prevPage) => prevPage + 5);
   };
 
   const onResetClicked = () => {

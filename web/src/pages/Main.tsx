@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import useSWR from "swr";
 import { useHistory } from "react-router-dom";
+import { useNotifications } from "reapop";
 import { Layout } from "../components/Layout";
 import { Input } from "../components/Input";
 import { Service } from "../components/Service";
@@ -12,8 +13,9 @@ export const MainPage: React.FC = () => {
   const history = useHistory();
   const [page, setPage] = useState(0);
   const [searchTerm, setSearchTerm] = useState("");
-  const debouncedSearchTerm = useDebounce(searchTerm, 500);
+  const { notify } = useNotifications();
 
+  const debouncedSearchTerm = useDebounce(searchTerm, 500);
   const [services, setServices] = useState<ServicePaginatedResult>({
     rows: [],
     count: 0,
@@ -40,6 +42,26 @@ export const MainPage: React.FC = () => {
     mutate();
     setSearchTerm("");
   };
+
+  const activateBounceHandler = useCallback(
+    (service: ServiceItem, bounce: string) => {
+      if (!bounce) {
+        notify({
+          title: "Error",
+          message: `Please Enter A Valid Promo Code`,
+          status: "error",
+        });
+        return;
+      }
+
+      notify({
+        title: "Success",
+        message: `Service ${service.title} - ${bounce} Has Been Activated For You`,
+        status: "info",
+      });
+    },
+    []
+  );
 
   useEffect(
     () => {
@@ -76,9 +98,9 @@ export const MainPage: React.FC = () => {
         {services &&
           services.rows.map((service: ServiceItem) => (
             <Service
-              key={service.id}
-              title={service.title}
-              description={service.description}
+              key={service.title}
+              item={service}
+              onBounceActivatedClicked={activateBounceHandler}
             />
           ))}
       </section>

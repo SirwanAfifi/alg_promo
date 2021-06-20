@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { User, Service } from './_index';
+import { User, Service, PromoCode } from './_index';
 
 @Entity()
 export class UserService {
@@ -11,6 +11,12 @@ export class UserService {
 
   @Column()
   serviceId!: number;
+
+  @Column()
+  promoCodeId!: number;
+
+  @ManyToOne(() => PromoCode, (promoCode) => promoCode.userServices)
+  promoCode: PromoCode;
 
   @ManyToOne(() => User, (user) => user.userServices)
   user!: User;

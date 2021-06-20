@@ -88,4 +88,17 @@ export class AuthService {
       return false;
     }
   }
+
+  verify(token: string) {
+    return jwt.verify(token, this.configService.get<string>('PRIVATE_KEY'));
+  }
+
+  async findById(id: number) {
+    try {
+      const user = await this.users.findOneOrFail({ id });
+      return { ok: true, user };
+    } catch (error) {
+      return { ok: false, error: 'User not found.' };
+    }
+  }
 }

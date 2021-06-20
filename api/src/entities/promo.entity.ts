@@ -4,9 +4,10 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   BeforeInsert,
+  OneToMany,
 } from 'typeorm';
 import * as uuid from 'uuid';
-import { Service } from './_index';
+import { Service, UserService } from './_index';
 
 @Entity()
 export class PromoCode {
@@ -32,6 +33,9 @@ export class PromoCode {
     onDelete: 'CASCADE',
   })
   service: Service;
+
+  @OneToMany(() => UserService, (userService) => userService.promoCode)
+  userServices: UserService[];
 
   @Column()
   serviceId!: number;

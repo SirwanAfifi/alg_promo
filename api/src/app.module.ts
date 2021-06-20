@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from '@hapi/joi';
@@ -9,13 +14,14 @@ import {
   ServiceService,
   PromoCodeService,
 } from './services/_index';
-import { PromoCode, User, Service } from './entities/_index';
+import { PromoCode, User, Service, UserService } from './entities/_index';
 import {
   CommonController,
   AuthController,
   ServiceController,
   PromoCodeController,
 } from './controllers/_index';
+import { JwtMiddleware } from './utils/auth.middleware';
 
 @Module({
   imports: [
@@ -44,7 +50,7 @@ import {
         synchronize: true,
       }),
     }),
-    TypeOrmModule.forFeature([Service, PromoCode, User]),
+    TypeOrmModule.forFeature([Service, PromoCode, User, UserService]),
   ],
   controllers: [
     CommonController,
@@ -54,4 +60,14 @@ import {
   ],
   providers: [AuthService, CommonService, ServiceService, PromoCodeService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(JwtMiddleware)
+      // .exclude({ path: '/login', method: RequestMethod.POST })
+      .forRoutes({
+        path: '/api',
+        method: RequestMethod.ALL,
+      });
+  }
+}

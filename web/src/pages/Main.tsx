@@ -44,7 +44,7 @@ export const MainPage: React.FC = () => {
   };
 
   const activateBounceHandler = useCallback(
-    (service: ServiceItem, bounce: string) => {
+    async (service: ServiceItem, bounce: string) => {
       if (!bounce) {
         notify({
           title: "Error",
@@ -54,9 +54,27 @@ export const MainPage: React.FC = () => {
         return;
       }
 
+      const activateBounceResult = await privateFetch.post(
+        `/promoCode/activateBounce`,
+        {
+          serviceId: service.id,
+          promoCode: bounce,
+        }
+      );
+
+      if (activateBounceResult && !activateBounceResult.data.ok) {
+        const { error } = activateBounceResult.data;
+        notify({
+          title: "Error",
+          message: error,
+          status: "error",
+        });
+        return;
+      }
+
       notify({
         title: "Success",
-        message: `Service ${service.title} - ${bounce} Has Been Activated For You`,
+        message: `Service ${service.title} Has Been Activated For You`,
         status: "info",
       });
     },
@@ -98,7 +116,7 @@ export const MainPage: React.FC = () => {
         {services &&
           services.rows.map((service: ServiceItem) => (
             <Service
-              key={service.title}
+              key={`${service.id}-${service.title}`}
               item={service}
               onBounceActivatedClicked={activateBounceHandler}
             />

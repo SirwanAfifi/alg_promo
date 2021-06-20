@@ -36,14 +36,19 @@ export class AuthService {
     }
   }
 
-  async login({
-    username,
-    password,
-  }: LoginDto): Promise<{ ok: boolean; error?: string; token?: string }> {
+  async login({ username, password }: LoginDto): Promise<{
+    ok: boolean;
+    error?: string;
+    token?: string;
+    userInfo?: {
+      username: string;
+      balance: number;
+    };
+  }> {
     try {
       const user = await this.users.findOne(
         { username },
-        { select: ['id', 'password'] },
+        { select: ['id', 'password', 'balance', 'username'] },
       );
       if (!user) {
         return { ok: false, error: 'User not found' };
@@ -59,6 +64,10 @@ export class AuthService {
       return {
         ok: true,
         token,
+        userInfo: {
+          balance: user.balance,
+          username: user.username,
+        },
       };
     } catch (error) {
       return { ok: false, error: "Can't login user" };

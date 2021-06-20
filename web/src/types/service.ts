@@ -4,3 +4,8 @@ export interface ServiceItem {
   price: number;
   description: string;
 }
+
+export interface ServicePaginatedResult {
+  rows: ServiceItem[];
+  count: number;
+}

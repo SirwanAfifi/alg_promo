@@ -11,11 +11,14 @@ export class ServiceService {
     private readonly services: Repository<Service>,
   ) {}
 
-  findAll() {
-    // const { limit, offset } = paginationQuery;
-    return this.services.find({
-      relations: ['promoCodes'],
-    });
+  findAll({ limit, offset }: { limit: number; offset: number }) {
+    return this.services
+      .findAndCount({
+        relations: ['promoCodes'],
+        skip: offset,
+        take: limit,
+      })
+      .then((result) => ({ rows: result[0], count: result[1] }));
   }
 
   async createService({ title, description, price }: CreateServiceDto) {

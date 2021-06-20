@@ -4,6 +4,7 @@ import {
   HttpCode,
   HttpStatus,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { Controller } from '@nestjs/common';
@@ -17,8 +18,8 @@ export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}
 
   @Get()
-  findAll() {
-    return this.serviceService.findAll();
+  findAll(@Query() paginationQuery) {
+    return this.serviceService.findAll(paginationQuery);
   }
 
   @Post()
